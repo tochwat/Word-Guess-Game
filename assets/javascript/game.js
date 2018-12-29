@@ -39,6 +39,8 @@ var guessesRemaining = 15;
 var remainingLetters = word.length;
 //Create variable to keep track of wins
 var wins = 0;
+//Create lettersGuessed array to keep track of player guesses
+var lettersGuessed = [];
 
 
 //Create wins display
@@ -47,18 +49,32 @@ winsText.textContent = wins;
 currentWordText.textContent = playerProgress.join(" ");
 //Create the remaining guesses display
 remainingGuessesText.textContent = guessesRemaining;
+//Create the lettersGuessed display
+lettersGuessedText.textContent = lettersGuessed;
 
 
 
 document.onkeyup = function(event) {
     var letter = event.key;
-    guessesRemaining--;
+
+    //NEED TO ADD CODE: If input equals a letter already guessed, set letter to null
+    if (lettersGuessed.includes(letter)) {
+        letter=null;
+    } else {
+        //Add letter to array of guessed letters
+        lettersGuessed.push(letter);
+    }
+    
+
+
     for (var j=0; j<word.length; j++) {
         if (word[j]===letter) {
             playerProgress[j]=letter;
             remainingLetters--;
         }
     }
+    //Subtract one from guessesRemaining
+    guessesRemaining--;
 
 
 
@@ -82,6 +98,8 @@ document.onkeyup = function(event) {
         remainingLetters = word.length;
         //add 1 to wins
         wins++;
+        //empty lettersGuessed array
+        lettersGuessed = [];
     }
 
 
@@ -100,6 +118,8 @@ document.onkeyup = function(event) {
         guessesRemaining = 15;
         //reset remainingLetters variable for new word
         remainingLetters = word.length;
+        //empty lettersGuessed array
+        lettersGuessed = [];
     }
 
     //Update wins display
@@ -108,33 +128,10 @@ document.onkeyup = function(event) {
     currentWordText.textContent = playerProgress.join(" ");
     //Update the remaining guesses display
     remainingGuessesText.textContent = guessesRemaining;
+    //Update lettersGuessed array
+    lettersGuessedText.textContent = lettersGuessed.join(", ");
 }
 
 
 
 
-
-/* This all needs to be deleted - replaced the while loop with the event listener
-//While the player hasn't finished guessing the word (remainingLetters is greater than 0)
-while (remainingLetters > 0) {
-    //Display the player's progress
-    currentWordText.textContent = playerProgress.join(" ");
-
-    //take the player's input
-    //if they correctly guess a letter, update the progress display and subtract 1 from the remainingLetters variable
-    
-    document.onkeyup = function(event) {
-        var letter = event.key;
-        for (var j=0; j<word.length; j++) {
-            if (word[j]===letter) {
-                playerProgress[j]=letter;
-                remainingLetters--;
-            }
-        }
-    }
-}
-*/
-
-//Congratulate player on winning 
-//alert(playerProgress.join(" "));
-//alert("Congrats! The word was " + word + "!");
