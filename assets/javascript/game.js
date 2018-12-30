@@ -6,7 +6,7 @@ var winsText = document.getElementById("wins-text");
 var currentWordText = document.getElementById("current-word-text");
 var remainingGuessesText = document.getElementById("remaining-guesses-text");
 var lettersGuessedText = document.getElementById("letters-guessed-text");
-
+var image = document.getElementById("image");
 
 
 //Create an array of the possible words for the game to use 
@@ -78,10 +78,17 @@ document.onkeyup = function(event) {
 
 
 
-    //if remainingLetters is zero, pick a new word and add 1 to numWins, pick a new word and start over 
+    //if remainingLetters is zero, pick a new word and add 1 to numWins, pick a new word and start over - but first use if statement to determine completed word and show new image, etc.
     if (remainingLetters===0){
         //Update won-text
         wonText.textContent = word;
+        
+        if (word==="adams"){
+            image.setAttribute("src", "assets/images/placeholder1.jpeg");
+        }else if (word==="rainier"){
+            image.setAttribute("src", "assets/images/placeholder2.jpeg");
+        }
+
 
         //Pick new word from the words array
         word = words[Math.floor(Math.random() * words.length)];
