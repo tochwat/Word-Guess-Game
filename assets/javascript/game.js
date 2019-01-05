@@ -57,28 +57,8 @@ remainingGuessesText.textContent = guessesRemaining;
 lettersGuessedText.textContent = lettersGuessed;
 
 
-
-document.onkeyup = function(event) {
-    var letter = event.key;
-
-    //NEED TO ADD CODE: If input equals a letter already guessed, set letter to null
-    if (lettersGuessed.includes(letter)) {
-        //play error audio
-        errorAudio.play(); 
-
-        letter=null;
-    } else {
-
-        //play click audio
-        clickAudio.play(); 
-
-        //Add letter to array of guessed letters
-        lettersGuessed.push(letter);
-
-    }
-    
-
-
+//function to check the player's guess and then take away 1 from their guessesRemaining
+function checkGuess(letter){
     for (var j=0; j<word.length; j++) {
         if (word[j]===letter) {
             playerProgress[j]=letter;
@@ -87,89 +67,115 @@ document.onkeyup = function(event) {
     }
     //Subtract one from guessesRemaining
     guessesRemaining--;
+}
 
+//function to reset word
+function resetWord(){
+    //Pick new word from the words array
+    word = words[Math.floor(Math.random() * words.length)];
 
-
-    //if remainingLetters is zero, pick a new word and add 1 to numWins, pick a new word and start over - but first use if statement to determine completed word and show new image, etc.
-    if (remainingLetters===0){
-        //play win audio
-        winAudio.play(); 
-        
-        //Update won-text with word
-        //wonText.textContent = word;
-        
-        //Update won-text and image based on won word
-        if (word==="adams"){
-            wonText.textContent = "Mount Adams!";
-            image.setAttribute("src", "assets/images/adams.png");
-        }else if (word==="rainier"){
-            wonText.textContent = "Mount Rainier!";
-            image.setAttribute("src", "assets/images/rainier.png");
-        }else if (word==="baker"){
-            wonText.textContent = "Mount Baker!";
-            image.setAttribute("src", "assets/images/baker.png");
-        }else if (word==="bonanza"){
-            wonText.textContent = "Bonanza Peak!";
-            image.setAttribute("src", "assets/images/bonanza.png");
-        }else if (word==="fernow"){
-            wonText.textContent = "Mount Fernow!";
-            image.setAttribute("src", "assets/images/fernow.png");
-        }else if (word==="glacier"){
-            wonText.textContent = "Glacier Peak!";
-            image.setAttribute("src", "assets/images/glacier.png");
-        }else{
-            wonText.textContent = "Mount Stuart!";
-            image.setAttribute("src", "assets/images/stuart.png");
-        }
-
-
-        //Pick new word from the words array
-        word = words[Math.floor(Math.random() * words.length)];
-
-        //Empty playerProgress array
-        playerProgress = [];
-        //For loop - for length of word, set playerProgress[i] as "_" 
-        for (var i=0; i<word.length; i++){
-            playerProgress[i] = "_";
-        }
-        //Reset number of guesses
-        guessesRemaining = 15;
-        //reset remainingLetters variable for new word
-        remainingLetters = word.length;
-        //add 1 to wins
-        wins++;
-        //empty lettersGuessed array
-        lettersGuessed = [];
+    //Empty playerProgress array
+    playerProgress = [];
+    //For loop - for length of word, set playerProgress[i] as "_" 
+    for (var i=0; i<word.length; i++){
+        playerProgress[i] = "_";
     }
 
+    //Reset number of guesses
+    guessesRemaining = 15;
+    //reset remainingLetters variable for new word
+    remainingLetters = word.length;
+    //empty lettersGuessed array
+    lettersGuessed = [];
+}
 
-    //if guessesRemaining is zero, pick a new word and start over
-    if (guessesRemaining===0){
-        //Pick new word from the words array
-        word = words[Math.floor(Math.random() * words.length)];
+//function to check if valid guess
+function isValidGuess(guess) {
+    return /^[A-Za-z]$/.test(guess);
+}
 
-        //Empty playerProgress array
-        playerProgress = [];
-        //For loop - for length of word, set playerProgress[i] as "_" 
-        for (var i=0; i<word.length; i++){
-            playerProgress[i] = "_";
+//then do if (isValidGuess(event.key)) {checkGuess(event.key);}
+
+
+
+
+//function on keypress
+document.onkeyup = function(event) {
+    var letter = event.key;
+
+    //check the letter only if it's a valid letter
+    if (isValidGuess(letter)) {
+
+        //If input equals a letter already guessed, set letter to null
+        if (lettersGuessed.includes(letter)) {
+            //play error audio
+            errorAudio.play(); 
+
+            letter=null;
+        } else {
+            //play click audio
+            clickAudio.play(); 
+            //Add letter to array of guessed letters
+            lettersGuessed.push(letter);
         }
-        //Reset number of guesses
-        guessesRemaining = 15;
-        //reset remainingLetters variable for new word
-        remainingLetters = word.length;
-        //empty lettersGuessed array
-        lettersGuessed = [];
-    }
+        
+        //call checkGuess function to check the player input
+        checkGuess(letter);
 
-    //Update wins display
-    winsText.textContent = wins;
-    //Update the player's progress display
-    currentWordText.textContent = playerProgress.join(" ");
-    //Update the remaining guesses display
-    remainingGuessesText.textContent = guessesRemaining;
-    //Update lettersGuessed array
-    lettersGuessedText.textContent = lettersGuessed.join(", ");
+        //if remainingLetters is zero, pick a new word and add 1 to numWins, pick a new word and start over - but first use if statement to determine completed word and show new image, etc.
+        if (remainingLetters===0){
+            //play win audio
+            winAudio.play(); 
+            
+            //Update won-text and image based on won word
+            if (word==="adams"){
+                wonText.textContent = "Mount Adams!";
+                image.setAttribute("src", "assets/images/adams.png");
+            }else if (word==="rainier"){
+                wonText.textContent = "Mount Rainier!";
+                image.setAttribute("src", "assets/images/rainier.png");
+            }else if (word==="baker"){
+                wonText.textContent = "Mount Baker!";
+                image.setAttribute("src", "assets/images/baker.png");
+            }else if (word==="bonanza"){
+                wonText.textContent = "Bonanza Peak!";
+                image.setAttribute("src", "assets/images/bonanza.png");
+            }else if (word==="fernow"){
+                wonText.textContent = "Mount Fernow!";
+                image.setAttribute("src", "assets/images/fernow.png");
+            }else if (word==="glacier"){
+                wonText.textContent = "Glacier Peak!";
+                image.setAttribute("src", "assets/images/glacier.png");
+            }else{
+                wonText.textContent = "Mount Stuart!";
+                image.setAttribute("src", "assets/images/stuart.png");
+            }
+
+            //add 1 to wins
+            wins++;
+
+
+            //call function to reset word
+            resetWord();
+        }
+
+
+        //if guessesRemaining is zero, pick a new word and start over
+        if (guessesRemaining===0){
+            //call function to reset word
+            resetWord();
+        }
+        
+        //Update wins display
+        winsText.textContent = wins;
+        //Update the player's progress display
+        currentWordText.textContent = playerProgress.join(" ");
+        //Update the remaining guesses display
+        remainingGuessesText.textContent = guessesRemaining;
+        //Update lettersGuessed array
+        lettersGuessedText.textContent = lettersGuessed.join(", ");
+
+    }
 }
 
 
