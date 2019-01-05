@@ -7,17 +7,21 @@ var currentWordText = document.getElementById("current-word-text");
 var remainingGuessesText = document.getElementById("remaining-guesses-text");
 var lettersGuessedText = document.getElementById("letters-guessed-text");
 var image = document.getElementById("image");
+var clickAudio = document.getElementById("click-audio"); 
+var errorAudio = document.getElementById("error-audio"); 
+var winAudio = document.getElementById("win-audio"); 
+
 
 
 //Create an array of the possible words for the game to use 
 var words = [
     "rainier",
     "adams",
-//    "baker",
-//    "tahoma",
-//    "kulshan",
-//    "helens",
-//    "bonanza"
+    "baker",
+    "bonanza",
+    "fernow",
+    "glacier",
+    "stuart"
 ];
 
 
@@ -59,10 +63,18 @@ document.onkeyup = function(event) {
 
     //NEED TO ADD CODE: If input equals a letter already guessed, set letter to null
     if (lettersGuessed.includes(letter)) {
+        //play error audio
+        errorAudio.play(); 
+
         letter=null;
     } else {
+
+        //play click audio
+        clickAudio.play(); 
+
         //Add letter to array of guessed letters
         lettersGuessed.push(letter);
+
     }
     
 
@@ -80,13 +92,34 @@ document.onkeyup = function(event) {
 
     //if remainingLetters is zero, pick a new word and add 1 to numWins, pick a new word and start over - but first use if statement to determine completed word and show new image, etc.
     if (remainingLetters===0){
-        //Update won-text
-        wonText.textContent = word;
+        //play win audio
+        winAudio.play(); 
         
+        //Update won-text with word
+        //wonText.textContent = word;
+        
+        //Update won-text and image based on won word
         if (word==="adams"){
-            image.setAttribute("src", "assets/images/placeholder1.jpeg");
+            wonText.textContent = "Mount Adams!";
+            image.setAttribute("src", "assets/images/adams.png");
         }else if (word==="rainier"){
-            image.setAttribute("src", "assets/images/placeholder2.jpeg");
+            wonText.textContent = "Mount Rainier!";
+            image.setAttribute("src", "assets/images/rainier.png");
+        }else if (word==="baker"){
+            wonText.textContent = "Mount Baker!";
+            image.setAttribute("src", "assets/images/baker.png");
+        }else if (word==="bonanza"){
+            wonText.textContent = "Bonanza Peak!";
+            image.setAttribute("src", "assets/images/bonanza.png");
+        }else if (word==="fernow"){
+            wonText.textContent = "Mount Fernow!";
+            image.setAttribute("src", "assets/images/fernow.png");
+        }else if (word==="glacier"){
+            wonText.textContent = "Glacier Peak!";
+            image.setAttribute("src", "assets/images/glacier.png");
+        }else{
+            wonText.textContent = "Mount Stuart!";
+            image.setAttribute("src", "assets/images/stuart.png");
         }
 
 

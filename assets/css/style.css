@@ -11,4 +11,29 @@ h1 {
     text-align: center;
     margin-top:2%;
     margin-bottom: 3%;
+    font-family: 'Staatliches', cursive;
+    color: #4f7b38;
+}
+
+h3 {
+    font-family: 'Raleway', sans-serif;
+    color: #4f7b38;
+}
+
+#image {
+    margin-top: 5%;
+}
+
+#start-text, #won-text {
+    text-align: center;
+}
+
+#won-text {
+    margin-top: 5%;
+}
+
+#game-box {
+    background-color: #fbfbfb;
+    box-shadow: 5px 5px 37px #e0e0e0;
+    padding: 36px;
 }
