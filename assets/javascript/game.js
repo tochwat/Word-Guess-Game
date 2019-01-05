@@ -101,7 +101,8 @@ function isValidGuess(guess) {
 
 //function on keypress
 document.onkeyup = function(event) {
-    var letter = event.key;
+    //take user input, make sure its lower case, and assign to letter variable
+    var letter = event.key.toLowerCase();
 
     //check the letter only if it's a valid letter
     if (isValidGuess(letter)) {
