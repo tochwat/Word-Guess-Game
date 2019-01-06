@@ -21,7 +21,8 @@ var words = [
     "bonanza",
     "fernow",
     "glacier",
-    "stuart"
+    "stuart",
+    "breland"
 ];
 
 
